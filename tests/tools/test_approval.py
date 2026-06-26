@@ -9,7 +9,7 @@ from types import SimpleNamespace
 from unittest.mock import patch as mock_patch
 
 import tools.approval as approval_module
-from hermes_constants import get_hermes_home
+from agentx_constants import get_agentx_home
 from tools.approval import (
     _get_approval_mode,
     _smart_approve,
@@ -23,11 +23,11 @@ from tools.approval import (
 
 class TestApprovalModeParsing:
     def test_unquoted_yaml_off_boolean_false_maps_to_off(self):
-        with mock_patch("hermes_cli.config.load_config", return_value={"approvals": {"mode": False}}):
+        with mock_patch("agentx_cli.config.load_config", return_value={"approvals": {"mode": False}}):
             assert _get_approval_mode() == "off"
 
     def test_string_off_still_maps_to_off(self):
-        with mock_patch("hermes_cli.config.load_config", return_value={"approvals": {"mode": "off"}}):
+        with mock_patch("agentx_cli.config.load_config", return_value={"approvals": {"mode": "off"}}):
             assert _get_approval_mode() == "off"
 
 
@@ -150,7 +150,7 @@ class TestSessionKeyContext:
     def test_context_session_key_overrides_process_env(self):
         token = approval_module.set_current_session_key("alice")
         try:
-            with mock_patch.dict("os.environ", {"HERMES_SESSION_KEY": "bob"}, clear=False):
+            with mock_patch.dict("os.environ", {"AGENTX_SESSION_KEY": "bob"}, clear=False):
                 assert approval_module.get_current_session_key() == "alice"
         finally:
             approval_module.reset_current_session_key(token)
@@ -364,8 +364,8 @@ class TestTeePattern:
         assert dangerous is True
         assert key is not None
 
-    def test_tee_hermes_env(self):
-        dangerous, key, desc = detect_dangerous_command("echo x | tee ~/.hermes/.env")
+    def test_tee_agentx_env(self):
+        dangerous, key, desc = detect_dangerous_command("echo x | tee ~/.agentx/.env")
         assert dangerous is True
         assert key is not None
 
@@ -375,13 +375,13 @@ class TestTeePattern:
         assert dangerous is True
         assert key is not None
 
-    def test_tee_custom_hermes_home_env(self):
-        dangerous, key, desc = detect_dangerous_command("echo x | tee $HERMES_HOME/.env")
+    def test_tee_custom_agentx_home_env(self):
+        dangerous, key, desc = detect_dangerous_command("echo x | tee $AGENTX_HOME/.env")
         assert dangerous is True
         assert key is not None
 
-    def test_tee_quoted_custom_hermes_home_env(self):
-        dangerous, key, desc = detect_dangerous_command('echo x | tee "$HERMES_HOME/.env"')
+    def test_tee_quoted_custom_agentx_home_env(self):
+        dangerous, key, desc = detect_dangerous_command('echo x | tee "$AGENTX_HOME/.env"')
         assert dangerous is True
         assert key is not None
 
@@ -396,72 +396,72 @@ class TestTeePattern:
         assert key is None
 
 
-class TestHermesConfigWriteProtection:
+class TestAgentXConfigWriteProtection:
     """Terminal-side pairing for the file_tools write_file/patch deny on
-    ~/.hermes/config.yaml (#14639). config.yaml IS the security policy
+    ~/.agentx/config.yaml (#14639). config.yaml IS the security policy
     (approvals.mode/yolo live there, mtime-keyed cache reloads mid-session),
     so a write_file deny without terminal-side coverage is unpaired theater.
     These pin every terminal write idiom against the config file."""
 
     def test_redirect_overwrite(self):
-        dangerous, key, desc = detect_dangerous_command("echo 'approvals:' > ~/.hermes/config.yaml")
+        dangerous, key, desc = detect_dangerous_command("echo 'approvals:' > ~/.agentx/config.yaml")
         assert dangerous is True
         assert key is not None
 
     def test_append(self):
-        dangerous, key, desc = detect_dangerous_command("echo '  mode: off' >> ~/.hermes/config.yaml")
+        dangerous, key, desc = detect_dangerous_command("echo '  mode: off' >> ~/.agentx/config.yaml")
         assert dangerous is True
 
     def test_tee(self):
-        dangerous, key, desc = detect_dangerous_command("echo x | tee ~/.hermes/config.yaml")
+        dangerous, key, desc = detect_dangerous_command("echo x | tee ~/.agentx/config.yaml")
         assert dangerous is True
 
     def test_cp_over_config(self):
-        dangerous, key, desc = detect_dangerous_command("cp /tmp/evil.yaml ~/.hermes/config.yaml")
+        dangerous, key, desc = detect_dangerous_command("cp /tmp/evil.yaml ~/.agentx/config.yaml")
         assert dangerous is True
 
     def test_sed_in_place(self):
         # The gap the pairing closes: sed -i mutates the file directly,
         # bypassing the redirection/tee patterns.
-        dangerous, key, desc = detect_dangerous_command("sed -i 's/manual/off/' ~/.hermes/config.yaml")
+        dangerous, key, desc = detect_dangerous_command("sed -i 's/manual/off/' ~/.agentx/config.yaml")
         assert dangerous is True
-        assert "hermes config" in desc.lower() or "in-place" in desc.lower()
+        assert "agentx config" in desc.lower() or "in-place" in desc.lower()
 
     def test_sed_in_place_long_flag(self):
-        dangerous, key, desc = detect_dangerous_command("sed --in-place 's/manual/off/' ~/.hermes/config.yaml")
+        dangerous, key, desc = detect_dangerous_command("sed --in-place 's/manual/off/' ~/.agentx/config.yaml")
         assert dangerous is True
 
-    def test_sed_in_place_absolute_hermes_home_config(self):
-        config_path = get_hermes_home() / "config.yaml"
+    def test_sed_in_place_absolute_agentx_home_config(self):
+        config_path = get_agentx_home() / "config.yaml"
         dangerous, key, desc = detect_dangerous_command(
             f"sed -i 's/manual/off/' {config_path}"
         )
         assert dangerous is True
-        assert "hermes config" in desc.lower() or "in-place" in desc.lower()
+        assert "agentx config" in desc.lower() or "in-place" in desc.lower()
 
-    def test_sed_in_place_absolute_hermes_home_env(self):
-        env_path = get_hermes_home() / ".env"
+    def test_sed_in_place_absolute_agentx_home_env(self):
+        env_path = get_agentx_home() / ".env"
         dangerous, key, desc = detect_dangerous_command(
             f"sed -i 's/API_KEY=.*/API_KEY=x/' {env_path}"
         )
         assert dangerous is True
-        assert "hermes config" in desc.lower() or "in-place" in desc.lower()
+        assert "agentx config" in desc.lower() or "in-place" in desc.lower()
 
-    def test_custom_hermes_home(self):
-        dangerous, key, desc = detect_dangerous_command("echo x | tee $HERMES_HOME/config.yaml")
+    def test_custom_agentx_home(self):
+        dangerous, key, desc = detect_dangerous_command("echo x | tee $AGENTX_HOME/config.yaml")
         assert dangerous is True
 
     def test_perl_in_place_config(self):
         # perl -i performs the same in-place mutation as sed -i but was not
         # caught by the -e/-c pattern (which targets code evaluation).
         dangerous, key, desc = detect_dangerous_command(
-            "perl -i -pe 's/approvals.mode: on/approvals.mode: off/' ~/.hermes/config.yaml"
+            "perl -i -pe 's/approvals.mode: on/approvals.mode: off/' ~/.agentx/config.yaml"
         )
         assert dangerous is True
         assert "in-place" in desc.lower() or "perl" in desc.lower()
 
-    def test_perl_in_place_absolute_hermes_home_config(self):
-        config_path = get_hermes_home() / "config.yaml"
+    def test_perl_in_place_absolute_agentx_home_config(self):
+        config_path = get_agentx_home() / "config.yaml"
         dangerous, key, desc = detect_dangerous_command(
             f"perl -i -pe 's/approvals.mode: on/approvals.mode: off/' {config_path}"
         )
@@ -470,12 +470,12 @@ class TestHermesConfigWriteProtection:
 
     def test_ruby_in_place_config(self):
         dangerous, key, desc = detect_dangerous_command(
-            "ruby -i -pe 'gsub(/manual/, \"off\")' ~/.hermes/config.yaml"
+            "ruby -i -pe 'gsub(/manual/, \"off\")' ~/.agentx/config.yaml"
         )
         assert dangerous is True
 
-    def test_ruby_in_place_absolute_hermes_home_env(self):
-        env_path = get_hermes_home() / ".env"
+    def test_ruby_in_place_absolute_agentx_home_env(self):
+        env_path = get_agentx_home() / ".env"
         dangerous, key, desc = detect_dangerous_command(
             f"ruby -i -pe 'gsub(/API_KEY=.*/, \"API_KEY=x\")' {env_path}"
         )
@@ -489,7 +489,7 @@ class TestHermesConfigWriteProtection:
 
     def test_perl_in_place_env(self):
         dangerous, key, desc = detect_dangerous_command(
-            "perl -i -pe 's/SECRET=old/SECRET=new/' ~/.hermes/.env"
+            "perl -i -pe 's/SECRET=old/SECRET=new/' ~/.agentx/.env"
         )
         assert dangerous is True
 
@@ -498,14 +498,14 @@ class TestHermesConfigWriteProtection:
         # splits the in-place flag out as its own token after -p; the pattern
         # must catch it the same as `perl -i -pe`.
         dangerous, key, desc = detect_dangerous_command(
-            "perl -p -i -e 's/approvals.mode: on/approvals.mode: off/' ~/.hermes/config.yaml"
+            "perl -p -i -e 's/approvals.mode: on/approvals.mode: off/' ~/.agentx/config.yaml"
         )
         assert dangerous is True
 
     def test_perl_in_place_backup_suffix(self):
         # `perl -i.bak` keeps a backup but still mutates the file in place.
         dangerous, key, desc = detect_dangerous_command(
-            "perl -i.bak -pe 's/x/y/' ~/.hermes/config.yaml"
+            "perl -i.bak -pe 's/x/y/' ~/.agentx/config.yaml"
         )
         assert dangerous is True
 
@@ -513,17 +513,17 @@ class TestHermesConfigWriteProtection:
         # `perl -e` with no -i flag is code evaluation, not file mutation —
         # the perl/ruby -i pattern must not fire on it.
         dangerous, key, desc = detect_dangerous_command(
-            "perl -wne 'print' ~/.hermes/config.yaml"
+            "perl -wne 'print' ~/.agentx/config.yaml"
         )
         assert dangerous is False
 
     def test_read_is_safe(self):
         # Reading config is not a write — must not trip.
-        dangerous, key, desc = detect_dangerous_command("cat ~/.hermes/config.yaml")
+        dangerous, key, desc = detect_dangerous_command("cat ~/.agentx/config.yaml")
         assert dangerous is False
 
     def test_normal_yaml_write_safe(self):
-        # A non-Hermes config.yaml in a project dir is handled by the project
+        # A non-AgentX config.yaml in a project dir is handled by the project
         # patterns, but a plain temp write must not false-positive.
         dangerous, key, desc = detect_dangerous_command("echo data > /tmp/scratch.txt")
         assert dangerous is False
@@ -556,8 +556,8 @@ class TestFindExecFullPathRm:
 class TestSensitiveRedirectPattern:
     """Detect shell redirection writes to sensitive user-managed paths."""
 
-    def test_redirect_to_custom_hermes_home_env(self):
-        dangerous, key, desc = detect_dangerous_command("echo x > $HERMES_HOME/.env")
+    def test_redirect_to_custom_agentx_home_env(self):
+        dangerous, key, desc = detect_dangerous_command("echo x > $AGENTX_HOME/.env")
         assert dangerous is True
         assert key is not None
 
@@ -667,7 +667,7 @@ class TestProjectSensitiveCopyPattern:
 
 class TestSensitiveCopyMovePattern:
     """cp/mv/install OVERWRITING ~/.ssh/*, credential files (~/.netrc etc.),
-    shell rc files, or ~/.hermes/config.yaml/.env must require approval — the
+    shell rc files, or ~/.agentx/config.yaml/.env must require approval — the
     tee/redirection forms were already gated (#14639 family / commit 4e9d886d),
     but cp/mv/install on these targets was an unpaired half-door (key implant /
     shell-rc command injection slipped through auto-approve)."""
@@ -689,8 +689,8 @@ class TestSensitiveCopyMovePattern:
         dangerous, key, desc = detect_dangerous_command("cp /tmp/e ~/.bashrc")
         assert dangerous is True
 
-    def test_cp_to_hermes_config(self):
-        dangerous, key, desc = detect_dangerous_command("cp /tmp/evil.yaml ~/.hermes/config.yaml")
+    def test_cp_to_agentx_config(self):
+        dangerous, key, desc = detect_dangerous_command("cp /tmp/evil.yaml ~/.agentx/config.yaml")
         assert dangerous is True
 
     def test_cp_from_ssh_is_safe(self):
@@ -739,16 +739,16 @@ class TestSensitiveInPlaceEditPattern:
 
 
 class TestWindowsAbsolutePathFolding:
-    """Windows absolute home / Hermes-home prefixes must fold to ~/ and
-    ~/.hermes/ in dangerous-command detection.
+    """Windows absolute home / AgentX-home prefixes must fold to ~/ and
+    ~/.agentx/ in dangerous-command detection.
 
     Regression: on native Windows the home prefix uses backslash separators
     (``C:\\Users\\alice\\.ssh\\authorized_keys``). Detection stripped backslash
     escapes *before* folding, dissolving those separators, so writes to startup,
-    SSH, and Hermes config/env files returned "safe" without an approval prompt.
-    The OS-specific ``Path.home()`` / ``get_hermes_home()`` tests above only
+    SSH, and AgentX config/env files returned "safe" without an approval prompt.
+    The OS-specific ``Path.home()`` / ``get_agentx_home()`` tests above only
     exercise this branch on a Windows host; these monkeypatch a Windows-style
-    HOME/HERMES_HOME so the fold is verified on the POSIX CI runner too."""
+    HOME/AGENTX_HOME so the fold is verified on the POSIX CI runner too."""
 
     def test_windows_home_bashrc_folds(self, monkeypatch):
         monkeypatch.setenv("HOME", r"C:\Users\tester")
@@ -776,13 +776,13 @@ class TestWindowsAbsolutePathFolding:
         assert dangerous is True
         assert key is not None
 
-    def test_windows_hermes_home_config_folds(self, monkeypatch):
-        # Hermes home nests under the user home on Windows; it must fold before
+    def test_windows_agentx_home_config_folds(self, monkeypatch):
+        # AgentX home nests under the user home on Windows; it must fold before
         # the user-home rewrite eats its prefix.
         monkeypatch.setenv("HOME", r"C:\Users\tester")
-        monkeypatch.setenv("HERMES_HOME", r"C:\Users\tester\.hermes")
+        monkeypatch.setenv("AGENTX_HOME", r"C:\Users\tester\.agentx")
         dangerous, key, _ = detect_dangerous_command(
-            r"sed -i 's/manual/off/' C:\Users\tester\.hermes\config.yaml"
+            r"sed -i 's/manual/off/' C:\Users\tester\.agentx\config.yaml"
         )
         assert dangerous is True
         assert key is not None
@@ -910,48 +910,48 @@ class TestGatewayProtection:
     """Prevent agents from starting the gateway outside systemd management."""
 
     def test_gateway_run_with_disown_detected(self):
-        cmd = "kill 1605 && cd ~/.hermes/hermes-agent && source venv/bin/activate && python -m hermes_cli.main gateway run --replace &disown; echo done"
+        cmd = "kill 1605 && cd ~/.agentx/agentx-agent && source venv/bin/activate && python -m agentx_cli.main gateway run --replace &disown; echo done"
         dangerous, key, desc = detect_dangerous_command(cmd)
         assert dangerous is True
         assert "systemctl" in desc
 
     def test_gateway_run_with_ampersand_detected(self):
-        cmd = "python -m hermes_cli.main gateway run --replace &"
+        cmd = "python -m agentx_cli.main gateway run --replace &"
         dangerous, key, desc = detect_dangerous_command(cmd)
         assert dangerous is True
 
     def test_gateway_run_with_nohup_detected(self):
-        cmd = "nohup python -m hermes_cli.main gateway run --replace"
+        cmd = "nohup python -m agentx_cli.main gateway run --replace"
         dangerous, key, desc = detect_dangerous_command(cmd)
         assert dangerous is True
 
     def test_gateway_run_with_setsid_detected(self):
-        cmd = "hermes_cli.main gateway run --replace &disown"
+        cmd = "agentx_cli.main gateway run --replace &disown"
         dangerous, key, desc = detect_dangerous_command(cmd)
         assert dangerous is True
 
     def test_gateway_run_foreground_not_flagged(self):
         """Normal foreground gateway run (as in systemd ExecStart) is fine."""
-        cmd = "python -m hermes_cli.main gateway run --replace"
+        cmd = "python -m agentx_cli.main gateway run --replace"
         dangerous, key, desc = detect_dangerous_command(cmd)
         assert dangerous is False
 
     def test_systemctl_restart_flagged(self):
         """systemctl restart kills running agents and should require approval."""
-        cmd = "systemctl --user restart hermes-gateway"
+        cmd = "systemctl --user restart agentx-gateway"
         dangerous, key, desc = detect_dangerous_command(cmd)
         assert dangerous is True
         assert "stop/restart" in desc
 
-    def test_pkill_hermes_detected(self):
-        """pkill targeting hermes/gateway processes must be caught."""
+    def test_pkill_agentx_detected(self):
+        """pkill targeting agentx/gateway processes must be caught."""
         cmd = 'pkill -f "cli.py --gateway"'
         dangerous, key, desc = detect_dangerous_command(cmd)
         assert dangerous is True
         assert "self-termination" in desc
 
-    def test_killall_hermes_detected(self):
-        cmd = "killall hermes"
+    def test_killall_agentx_detected(self):
+        cmd = "killall agentx"
         dangerous, key, desc = detect_dangerous_command(cmd)
         assert dangerous is True
         assert "self-termination" in desc
@@ -1087,20 +1087,20 @@ class TestHeredocScriptExecution:
 
 
 class TestPgrepKillExpansion:
-    """kill -9 $(pgrep hermes) bypasses the pkill/killall name-matching
+    """kill -9 $(pgrep agentx) bypasses the pkill/killall name-matching
     pattern because the command substitution is opaque to regex.
 
     See security audit Test 7.
     """
 
     def test_kill_dollar_pgrep_detected(self):
-        cmd = 'kill -9 $(pgrep -f "hermes.*gateway")'
+        cmd = 'kill -9 $(pgrep -f "agentx.*gateway")'
         dangerous, _, desc = detect_dangerous_command(cmd)
         assert dangerous is True
         assert "pgrep" in desc.lower()
 
     def test_kill_backtick_pgrep_detected(self):
-        cmd = "kill -9 `pgrep hermes`"
+        cmd = "kill -9 `pgrep agentx`"
         dangerous, _, desc = detect_dangerous_command(cmd)
         assert dangerous is True
 
@@ -1109,9 +1109,9 @@ class TestPgrepKillExpansion:
         dangerous, _, _ = detect_dangerous_command(cmd)
         assert dangerous is True
 
-    def test_pkill_hermes_still_detected(self):
+    def test_pkill_agentx_still_detected(self):
         """Existing pkill pattern must not regress."""
-        cmd = "pkill -9 hermes"
+        cmd = "pkill -9 agentx"
         dangerous, _, _ = detect_dangerous_command(cmd)
         assert dangerous is True
 
@@ -1122,44 +1122,44 @@ class TestPgrepKillExpansion:
         assert dangerous is False
 
     def test_kill_dollar_pidof_detected(self):
-        """`kill $(pidof hermes)` is the BSD/Linux equivalent of the
+        """`kill $(pidof agentx)` is the BSD/Linux equivalent of the
         pgrep expansion and bypasses the pkill/killall name pattern
         in the same way. See issue #33071."""
-        cmd = "kill -TERM $(pidof hermes_cli.main)"
+        cmd = "kill -TERM $(pidof agentx_cli.main)"
         dangerous, _, desc = detect_dangerous_command(cmd)
         assert dangerous is True
         assert "pidof" in desc.lower() or "pgrep" in desc.lower()
 
     def test_kill_backtick_pidof_detected(self):
-        cmd = "kill -9 `pidof hermes`"
+        cmd = "kill -9 `pidof agentx`"
         dangerous, _, _ = detect_dangerous_command(cmd)
         assert dangerous is True
 
 
 class TestLaunchctlGatewayLifecycle:
-    """launchctl stop/kickstart/bootout/unload against the Hermes service
-    label achieves the same effect as `hermes gateway stop|restart` and
+    """launchctl stop/kickstart/bootout/unload against the AgentX service
+    label achieves the same effect as `agentx gateway stop|restart` and
     must require the same approval. See issue #33071.
     """
 
-    def test_launchctl_stop_hermes_detected(self):
-        cmd = "launchctl stop ai.hermes.gateway"
+    def test_launchctl_stop_agentx_detected(self):
+        cmd = "launchctl stop ai.agentx.gateway"
         dangerous, _, desc = detect_dangerous_command(cmd)
         assert dangerous is True
-        assert "launchd" in desc.lower() or "hermes" in desc.lower()
+        assert "launchd" in desc.lower() or "agentx" in desc.lower()
 
-    def test_launchctl_kickstart_hermes_detected(self):
-        cmd = "launchctl kickstart -k system/ai.hermes.gateway"
+    def test_launchctl_kickstart_agentx_detected(self):
+        cmd = "launchctl kickstart -k system/ai.agentx.gateway"
         dangerous, _, _ = detect_dangerous_command(cmd)
         assert dangerous is True
 
-    def test_launchctl_bootout_hermes_detected(self):
-        cmd = "launchctl bootout system/ai.hermes.gateway"
+    def test_launchctl_bootout_agentx_detected(self):
+        cmd = "launchctl bootout system/ai.agentx.gateway"
         dangerous, _, _ = detect_dangerous_command(cmd)
         assert dangerous is True
 
-    def test_launchctl_unload_hermes_detected(self):
-        cmd = "launchctl unload ~/Library/LaunchAgents/ai.hermes.gateway.plist"
+    def test_launchctl_unload_agentx_detected(self):
+        cmd = "launchctl unload ~/Library/LaunchAgents/ai.agentx.gateway.plist"
         dangerous, _, _ = detect_dangerous_command(cmd)
         assert dangerous is True
 
@@ -1170,7 +1170,7 @@ class TestLaunchctlGatewayLifecycle:
         assert dangerous is False
 
     def test_launchctl_stop_unrelated_not_flagged(self):
-        """`launchctl stop` on a non-Hermes label is out of scope for the
+        """`launchctl stop` on a non-AgentX label is out of scope for the
         gateway-lifecycle guard."""
         cmd = "launchctl stop com.example.unrelated"
         dangerous, _, _ = detect_dangerous_command(cmd)
@@ -1696,18 +1696,18 @@ class TestApprovalTimeoutIsNotConsent:
 
         self._saved_env = {
             k: os.environ.get(k)
-            for k in ("HERMES_GATEWAY_SESSION", "HERMES_CRON_SESSION",
-                      "HERMES_YOLO_MODE",
-                      "HERMES_SESSION_KEY", "HERMES_INTERACTIVE")
+            for k in ("AGENTX_GATEWAY_SESSION", "AGENTX_CRON_SESSION",
+                      "AGENTX_YOLO_MODE",
+                      "AGENTX_SESSION_KEY", "AGENTX_INTERACTIVE")
         }
-        os.environ.pop("HERMES_YOLO_MODE", None)
-        os.environ.pop("HERMES_INTERACTIVE", None)
-        # HERMES_CRON_SESSION takes priority over HERMES_GATEWAY_SESSION in
+        os.environ.pop("AGENTX_YOLO_MODE", None)
+        os.environ.pop("AGENTX_INTERACTIVE", None)
+        # AGENTX_CRON_SESSION takes priority over AGENTX_GATEWAY_SESSION in
         # _is_gateway_approval_context(); a leaked value from a parent cron
         # process would force the cron path and break these gateway tests.
-        os.environ.pop("HERMES_CRON_SESSION", None)
-        os.environ["HERMES_GATEWAY_SESSION"] = "1"
-        os.environ["HERMES_SESSION_KEY"] = self.SESSION_KEY
+        os.environ.pop("AGENTX_CRON_SESSION", None)
+        os.environ["AGENTX_GATEWAY_SESSION"] = "1"
+        os.environ["AGENTX_SESSION_KEY"] = self.SESSION_KEY
 
     def teardown_method(self):
         from tools import approval as mod

@@ -19,14 +19,14 @@ import pytest
 
 
 @pytest.fixture()
-def hermes_home(tmp_path, monkeypatch):
-    home = tmp_path / ".hermes"
+def agentx_home(tmp_path, monkeypatch):
+    home = tmp_path / ".agentx"
     home.mkdir()
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
-    monkeypatch.setenv("HERMES_HOME", str(home))
+    monkeypatch.setenv("AGENTX_HOME", str(home))
 
-    # Bust the goal-module DB cache so it re-resolves HERMES_HOME.
-    from hermes_cli import goals
+    # Bust the goal-module DB cache so it re-resolves AGENTX_HOME.
+    from agentx_cli import goals
 
     goals._DB_CACHE.clear()
     yield home
@@ -34,12 +34,12 @@ def hermes_home(tmp_path, monkeypatch):
 
 
 @pytest.fixture()
-def server(hermes_home):
+def server(agentx_home):
     with patch.dict(
         "sys.modules",
         {
-            "hermes_cli.env_loader": MagicMock(),
-            "hermes_cli.banner": MagicMock(),
+            "agentx_cli.env_loader": MagicMock(),
+            "agentx_cli.banner": MagicMock(),
         },
     ):
         mod = importlib.import_module("tui_gateway.server")
@@ -114,7 +114,7 @@ def test_goal_set_returns_send_with_notice(server, session):
     assert "20-turn budget" in result["notice"]
 
     # Persisted in SessionDB
-    from hermes_cli.goals import GoalManager
+    from agentx_cli.goals import GoalManager
 
     mgr = GoalManager(session_key)
     assert mgr.state is not None
@@ -129,7 +129,7 @@ def test_goal_pause_after_set(server, session):
     assert r["result"]["type"] == "exec"
     assert "paused" in r["result"]["output"].lower()
 
-    from hermes_cli.goals import GoalManager
+    from agentx_cli.goals import GoalManager
 
     assert GoalManager(session_key).state.status == "paused"
 
@@ -142,7 +142,7 @@ def test_goal_resume_reactivates(server, session):
     assert r["result"]["type"] == "exec"
     assert "resumed" in r["result"]["output"].lower()
 
-    from hermes_cli.goals import GoalManager
+    from agentx_cli.goals import GoalManager
 
     assert GoalManager(session_key).state.status == "active"
 
@@ -154,7 +154,7 @@ def test_goal_clear_removes_active_goal(server, session):
     assert r["result"]["type"] == "exec"
     assert "cleared" in r["result"]["output"].lower()
 
-    from hermes_cli.goals import GoalManager
+    from agentx_cli.goals import GoalManager
 
     # After clear the row is marked status=cleared (kept for audit);
     # ``has_goal()`` / ``is_active()`` return False so the goal loop
@@ -211,8 +211,8 @@ def _write_moa_config(home, text):
     cfg_path.write_text(text)
 
 
-def test_moa_bare_switches_to_default_preset_model(server, session, hermes_home):
-    _write_moa_config(hermes_home, """
+def test_moa_bare_switches_to_default_preset_model(server, session, agentx_home):
+    _write_moa_config(agentx_home, """
 moa:
   default_preset: default
   presets:
@@ -232,8 +232,8 @@ moa:
     assert s["model_override"]["model"] == "default"
 
 
-def test_moa_exact_preset_switches_to_named_preset_model(server, session, hermes_home):
-    _write_moa_config(hermes_home, """
+def test_moa_exact_preset_switches_to_named_preset_model(server, session, agentx_home):
+    _write_moa_config(agentx_home, """
 moa:
   default_preset: default
   presets:
@@ -253,8 +253,8 @@ moa:
     assert s["model_override"]["model"] == "review"
 
 
-def test_moa_non_preset_returns_one_shot_send(server, session, hermes_home):
-    _write_moa_config(hermes_home, """
+def test_moa_non_preset_returns_one_shot_send(server, session, agentx_home):
+    _write_moa_config(agentx_home, """
 moa:
   default_preset: default
   presets:

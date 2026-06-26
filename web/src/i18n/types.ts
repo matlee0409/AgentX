@@ -146,8 +146,8 @@ export interface Translations {
     starting: string;
     startedInBackground: string;
     stopped: string;
-    updateHermes: string;
-    updatingHermes: string;
+    updateAgentX: string;
+    updatingAgentX: string;
     waitingForOutput: string;
   };
 
@@ -561,7 +561,7 @@ export interface Translations {
     fontMono?: string;
   };
 
-  // ── Achievements plugin (plugins/hermes-achievements) ──
+  // ── Achievements plugin (plugins/agentx-achievements) ──
   achievements: {
     hero: {
       kicker: string;

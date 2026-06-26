@@ -1,21 +1,21 @@
-"""Contract test: the s6-overlay stage2 hook resets ownership of hermes-owned
-top-level state files in $HERMES_HOME — but only those, never arbitrary
+"""Contract test: the s6-overlay stage2 hook resets ownership of agentx-owned
+top-level state files in $AGENTX_HOME — but only those, never arbitrary
 host-owned files.
 
 Regression guard for the gateway restart loop reported in #35098: files such
-as gateway.lock / state.db / auth.json live directly under $HERMES_HOME (not in
+as gateway.lock / state.db / auth.json live directly under $AGENTX_HOME (not in
 a subdir), so the targeted subdir chown misses them. When created or rewritten
-by `docker exec <container> hermes …` (root unless `-u` is passed) they land
-root-owned and the unprivileged hermes runtime then hits PermissionError on next
+by `docker exec <container> agentx …` (root unless `-u` is passed) they land
+root-owned and the unprivileged agentx runtime then hits PermissionError on next
 startup.
 
 The fix uses an explicit allowlist rather than a blanket `find -user root`
 sweep, preserving the targeted-ownership contract from #19788 / PR #19795: a
-bind-mounted $HERMES_HOME may contain host-owned files Hermes does not manage,
+bind-mounted $AGENTX_HOME may contain host-owned files AgentX does not manage,
 and those must never be chowned.
 
 The s6-overlay rework moved bootstrap from docker/entrypoint.sh (now a shim) to
-docker/stage2-hook.sh, installed as /etc/cont-init.d/01-hermes-setup. This test
+docker/stage2-hook.sh, installed as /etc/cont-init.d/01-agentx-setup. This test
 targets that location.
 """
 from __future__ import annotations
@@ -40,7 +40,7 @@ def stage2_text() -> str:
 
 
 def _toplevel_chown_loop(text: str) -> str:
-    """Extract the `for f in … chown hermes:hermes "$HERMES_HOME/$f" … done`
+    """Extract the `for f in … chown agentx:agentx "$AGENTX_HOME/$f" … done`
     block that repairs top-level state-file ownership."""
     m = re.search(
         r"(for f in \\\n(?:.*\\\n)*?.*; do\n(?:.*\n)*?done)",
@@ -48,15 +48,15 @@ def _toplevel_chown_loop(text: str) -> str:
     )
     assert m, "stage2-hook.sh must contain the top-level-file chown for-loop (#35098)"
     block = m.group(1)
-    assert 'chown hermes:hermes "$HERMES_HOME/$f"' in block, (
-        "the top-level-file loop must chown each allowlisted file to hermes"
+    assert 'chown agentx:agentx "$AGENTX_HOME/$f"' in block, (
+        "the top-level-file loop must chown each allowlisted file to agentx"
     )
     return block
 
 
 def _path_guard_functions(text: str) -> str:
     start = text.index("path_has_symlink_component() {")
-    end = text.index("\n\nchown_hermes_tree() {", start)
+    end = text.index("\n\nchown_agentx_tree() {", start)
     return text[start:end]
 
 
@@ -71,17 +71,17 @@ def test_toplevel_chown_loop_present(stage2_text: str) -> None:
 
 def test_no_blanket_find_user_root_sweep(stage2_text: str) -> None:
     """The fix must NOT reintroduce a blanket `find … -user root` chown of
-    $HERMES_HOME contents — that would clobber host-owned files in a bind mount
+    $AGENTX_HOME contents — that would clobber host-owned files in a bind mount
     (#19788 / PR #19795)."""
-    assert not re.search(r"find\s+\"?\$\{?HERMES_HOME\}?\"?[^\n]*-user\s+root", stage2_text), (
+    assert not re.search(r"find\s+\"?\$\{?AGENTX_HOME\}?\"?[^\n]*-user\s+root", stage2_text), (
         "stage2-hook.sh must not blanket-chown root-owned files under "
-        "$HERMES_HOME via `find -user root`; use the targeted allowlist instead "
+        "$AGENTX_HOME via `find -user root`; use the targeted allowlist instead "
         "so host-owned bind-mounted files are preserved (#19788, #19795)."
     )
 
 
 def _run_loop(text: str, present_files: list[str]) -> list[str]:
-    """Run the extracted chown loop in a sandbox $HERMES_HOME, with `chown`
+    """Run the extracted chown loop in a sandbox $AGENTX_HOME, with `chown`
     stubbed to record which paths it was asked to touch. Returns the basenames
     the loop attempted to chown."""
     bash = shutil.which("bash")
@@ -105,7 +105,7 @@ def _run_loop(text: str, present_files: list[str]) -> list[str]:
         # without needing real root privileges.
         script = (
             "set -e\n"
-            f'HERMES_HOME="{home}"\n'
+            f'AGENTX_HOME="{home}"\n'
             f"{_path_guard_functions(text)}\n"
             f'chown() {{ for a in "$@"; do :; done; echo "${{a##*/}}" >> "{dpath}/chown.log"; }}\n'
             + block
@@ -154,7 +154,7 @@ def test_loop_skips_symlinked_allowlisted_file(stage2_text: str, tmp_path: Path)
     log = tmp_path / "chown.log"
     script = (
         "set -e\n"
-        f'HERMES_HOME="{home}"\n'
+        f'AGENTX_HOME="{home}"\n'
         f"{_path_guard_functions(stage2_text)}\n"
         f'chown() {{ for a in "$@"; do :; done; echo "${{a##*/}}" >> "{log}"; }}\n'
         + block
@@ -172,7 +172,7 @@ def test_loop_skips_allowlisted_file_under_symlinked_home(
     stage2_text: str,
     tmp_path: Path,
 ) -> None:
-    """A symlinked $HERMES_HOME must not let file chown reach its target."""
+    """A symlinked $AGENTX_HOME must not let file chown reach its target."""
     bash = shutil.which("bash")
     if bash is None:
         pytest.skip("bash not available")
@@ -190,7 +190,7 @@ def test_loop_skips_allowlisted_file_under_symlinked_home(
     log = tmp_path / "chown.log"
     script = (
         "set -e\n"
-        f'HERMES_HOME="{linked_home}"\n'
+        f'AGENTX_HOME="{linked_home}"\n'
         f"{_path_guard_functions(stage2_text)}\n"
         f'chown() {{ for a in "$@"; do :; done; echo "${{a##*/}}" >> "{log}"; }}\n'
         + block
@@ -200,7 +200,7 @@ def test_loop_skips_allowlisted_file_under_symlinked_home(
 
     proc = subprocess.run([bash, str(script_path)], capture_output=True, text=True)
     assert proc.returncode == 0, proc.stderr
-    assert not log.exists(), "must not chown files through symlinked HERMES_HOME"
+    assert not log.exists(), "must not chown files through symlinked AGENTX_HOME"
     assert "refusing chown through symlinked path" in proc.stdout
 
 
