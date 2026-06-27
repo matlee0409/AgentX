@@ -127,7 +127,7 @@ A nightly backlog triage on Sonnet costs roughly $0.02-0.05. A monitoring check 
 AgentX Agent is open source and free. The automation infrastructure — cron scheduler, webhook platform, skill system, multi-platform delivery — is built in.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/matlee0409/AgentX/main/scripts/install.sh | bash
 agentx setup
 ```
 
@@ -149,11 +149,11 @@ agentx webhook subscribe pr-review \
   --deliver github_comment
 ```
 
-Full automation blueprints gallery: [github.com/matlek0409/AgentX/wiki/reference/automation-blueprints-catalog](https://github.com/matlek0409/AgentX/wiki/reference/automation-blueprints-catalog)
+Full automation blueprints gallery: [github.com/matlee0409/AgentX/wiki/reference/automation-blueprints-catalog](https://github.com/matlee0409/AgentX/wiki/reference/automation-blueprints-catalog)
 
-Documentation: [github.com/matlek0409/AgentX](https://github.com/matlek0409/AgentX)
+Documentation: [github.com/matlee0409/AgentX](https://github.com/matlee0409/AgentX)
 
-GitHub: [github.com/matlek0409/AgentX](https://github.com/matlek0409/AgentX)
+GitHub: [github.com/matlee0409/AgentX](https://github.com/matlee0409/AgentX)
 
 ---
 

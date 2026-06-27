@@ -4,8 +4,8 @@ Verifies that AgentX-managed provider, tool, and gateway env vars are
 stripped from subprocess environments so external CLIs are not silently
 misrouted or handed AgentX secrets.
 
-See: https://github.com/matlek0409/AgentX/issues/1002
-See: https://github.com/matlek0409/AgentX/issues/1264
+See: https://github.com/matlee0409/AgentX/issues/1002
+See: https://github.com/matlee0409/AgentX/issues/1264
 """
 
 import os

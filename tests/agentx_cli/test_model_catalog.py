@@ -180,9 +180,9 @@ class TestFallbackChain:
     releases (opus 4.8, etc.) never reach the picker.
     """
 
-    PRIMARY = "https://github.com/matlek0409/AgentX/wiki/api/model-catalog.json"
+    PRIMARY = "https://github.com/matlee0409/AgentX/wiki/api/model-catalog.json"
     FALLBACK = (
-        "https://raw.githubusercontent.com/matlek0409/AgentX"
+        "https://raw.githubusercontent.com/matlee0409/AgentX"
         "/main/website/static/api/model-catalog.json"
     )
 

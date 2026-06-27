@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   agentx:
     tags: [agentx, setup, configuration, multi-agent, spawning, cli, gateway, development]
-    homepage: https://github.com/matlek0409/AgentX
+    homepage: https://github.com/matlee0409/AgentX
     related_skills: [claude-code, codex, opencode]
 ---
 
@@ -29,7 +29,7 @@ People use AgentX for software development, research, system administration, dat
 
 **This skill helps you work with AgentX Agent effectively** — setting it up, configuring features, spawning additional agent instances, troubleshooting issues, finding the right commands and settings, and understanding how the system works when you need to extend or contribute to it.
 
-**Docs:** https://github.com/matlek0409/AgentX/wiki/
+**Docs:** https://github.com/matlee0409/AgentX/wiki/
 
 ## Scope & Verification
 
@@ -38,14 +38,14 @@ This skill is a concise operating guide, not the complete source of truth for ev
 Good verification targets:
 
 - CLI commands: `agentx --help`, `agentx <command> --help`, and `agentx_cli/main.py`
-- User documentation: https://github.com/matlek0409/AgentX/wiki/
-- Source tree: https://github.com/matlek0409/AgentX
+- User documentation: https://github.com/matlee0409/AgentX/wiki/
+- Source tree: https://github.com/matlee0409/AgentX
 
 ## Quick Start
 
 ```bash
 # Install
-curl -fsSL https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/matlee0409/AgentX/main/scripts/install.sh | bash
 
 # Interactive chat (default)
 agentx
@@ -167,7 +167,7 @@ agentx gateway setup        Configure platforms
 
 Supported platforms: Telegram, Discord, Slack, WhatsApp, Signal, Email, SMS, Matrix, Mattermost, Home Assistant, DingTalk, Feishu, WeCom, BlueBubbles (iMessage), Weixin (WeChat), API Server, Webhooks. Open WebUI connects via the API Server adapter.
 
-Platform docs: https://github.com/matlek0409/AgentX/wiki/user-guide/messaging/
+Platform docs: https://github.com/matlee0409/AgentX/wiki/user-guide/messaging/
 
 ### Sessions
 
@@ -249,7 +249,7 @@ agentx uninstall            Uninstall AgentX
 
 Type these during an interactive chat session. New commands land fairly
 often; if something below looks stale, run `/help` in-session for the
-authoritative list or see the [live slash commands reference](https://github.com/matlek0409/AgentX/wiki/reference/slash-commands).
+authoritative list or see the [live slash commands reference](https://github.com/matlee0409/AgentX/wiki/reference/slash-commands).
 The registry of record is `agentx_cli/commands.py` — every consumer
 (autocomplete, Telegram menu, Slack mapping, `/help`) derives from it.
 
@@ -381,7 +381,7 @@ Edit with `agentx config edit` or `agentx config set section.key value`.
 | `delegation` | `model`, `provider`, `base_url`, `api_key`, `max_iterations` (50), `reasoning_effort` |
 | `checkpoints` | `enabled`, `max_snapshots` (50) |
 
-Full config reference: https://github.com/matlek0409/AgentX/wiki/user-guide/configuration
+Full config reference: https://github.com/matlee0409/AgentX/wiki/user-guide/configuration
 
 ### Providers
 
@@ -411,7 +411,7 @@ Full config reference: https://github.com/matlek0409/AgentX/wiki/user-guide/conf
 | Custom endpoint | Config | `model.base_url` + `model.api_key` in config.yaml |
 | GitHub Copilot ACP | External | `COPILOT_CLI_PATH` or Copilot CLI |
 
-Full provider docs: https://github.com/matlek0409/AgentX/wiki/integrations/providers
+Full provider docs: https://github.com/matlee0409/AgentX/wiki/integrations/providers
 
 ### Toolsets
 
@@ -719,7 +719,7 @@ the `cronjob` tool, the `agentx cron` CLI (`list`, `add`, `edit`,
   header/footer instead of being mirrored into the target gateway
   session (keeps role alternation intact).
 
-User docs: https://github.com/matlek0409/AgentX/wiki/user-guide/features/cron
+User docs: https://github.com/matlee0409/AgentX/wiki/user-guide/features/cron
 
 ### Curator (skill lifecycle)
 
@@ -740,7 +740,7 @@ so nothing is lost.
 
 Config: `curator.*` (`enabled`, `interval_hours`, `min_idle_hours`,
 `stale_after_days`, `archive_after_days`, `backup.*`).
-User docs: https://github.com/matlek0409/AgentX/wiki/user-guide/features/curator
+User docs: https://github.com/matlee0409/AgentX/wiki/user-guide/features/curator
 
 ### Kanban (multi-agent work queue)
 
@@ -769,7 +769,7 @@ sessions still have zero `kanban_*` schema footprint unless configured.
   `AGENTX_KANBAN_BOARD` pinned in env); tenant is a soft namespace
   within a board for workspace-path + memory-key isolation.
 
-User docs: https://github.com/matlek0409/AgentX/wiki/user-guide/features/kanban
+User docs: https://github.com/matlee0409/AgentX/wiki/user-guide/features/kanban
 
 ---
 
@@ -920,18 +920,18 @@ agentx config set auxiliary.vision.model <model_name>
 
 | Looking for... | Location |
 |----------------|----------|
-| Config options | `agentx config edit` or [Configuration docs](https://github.com/matlek0409/AgentX/wiki/user-guide/configuration) |
-| Available tools | `agentx tools list` or [Tools reference](https://github.com/matlek0409/AgentX/wiki/reference/tools-reference) |
-| Slash commands | `/help` in session or [Slash commands reference](https://github.com/matlek0409/AgentX/wiki/reference/slash-commands) |
-| Skills catalog | `agentx skills browse` or [Skills catalog](https://github.com/matlek0409/AgentX/wiki/reference/skills-catalog) |
-| Provider setup | `agentx model` or [Providers guide](https://github.com/matlek0409/AgentX/wiki/integrations/providers) |
-| Platform setup | `agentx gateway setup` or [Messaging docs](https://github.com/matlek0409/AgentX/wiki/user-guide/messaging/) |
-| MCP servers | `agentx mcp list` or [MCP guide](https://github.com/matlek0409/AgentX/wiki/user-guide/features/mcp) |
-| Profiles | `agentx profile list` or [Profiles docs](https://github.com/matlek0409/AgentX/wiki/user-guide/profiles) |
-| Cron jobs | `agentx cron list` or [Cron docs](https://github.com/matlek0409/AgentX/wiki/user-guide/features/cron) |
-| Memory | `agentx memory status` or [Memory docs](https://github.com/matlek0409/AgentX/wiki/user-guide/features/memory) |
-| Env variables | `agentx config env-path` or [Env vars reference](https://github.com/matlek0409/AgentX/wiki/reference/environment-variables) |
-| CLI commands | `agentx --help` or [CLI reference](https://github.com/matlek0409/AgentX/wiki/reference/cli-commands) |
+| Config options | `agentx config edit` or [Configuration docs](https://github.com/matlee0409/AgentX/wiki/user-guide/configuration) |
+| Available tools | `agentx tools list` or [Tools reference](https://github.com/matlee0409/AgentX/wiki/reference/tools-reference) |
+| Slash commands | `/help` in session or [Slash commands reference](https://github.com/matlee0409/AgentX/wiki/reference/slash-commands) |
+| Skills catalog | `agentx skills browse` or [Skills catalog](https://github.com/matlee0409/AgentX/wiki/reference/skills-catalog) |
+| Provider setup | `agentx model` or [Providers guide](https://github.com/matlee0409/AgentX/wiki/integrations/providers) |
+| Platform setup | `agentx gateway setup` or [Messaging docs](https://github.com/matlee0409/AgentX/wiki/user-guide/messaging/) |
+| MCP servers | `agentx mcp list` or [MCP guide](https://github.com/matlee0409/AgentX/wiki/user-guide/features/mcp) |
+| Profiles | `agentx profile list` or [Profiles docs](https://github.com/matlee0409/AgentX/wiki/user-guide/profiles) |
+| Cron jobs | `agentx cron list` or [Cron docs](https://github.com/matlee0409/AgentX/wiki/user-guide/features/cron) |
+| Memory | `agentx memory status` or [Memory docs](https://github.com/matlee0409/AgentX/wiki/user-guide/features/memory) |
+| Env variables | `agentx config env-path` or [Env vars reference](https://github.com/matlee0409/AgentX/wiki/reference/environment-variables) |
+| CLI commands | `agentx --help` or [CLI reference](https://github.com/matlee0409/AgentX/wiki/reference/cli-commands) |
 | Gateway logs | `~/.agentx/logs/gateway.log` |
 | Session files | `agentx sessions browse` (reads state.db) |
 | Source code | `~/.agentx/agentx-agent/` |
@@ -940,7 +940,7 @@ agentx config set auxiliary.vision.model <model_name>
 
 ## Contributor Quick Reference
 
-For occasional contributors and PR authors. Full developer docs: https://github.com/matlek0409/AgentX/wiki/developer-guide/
+For occasional contributors and PR authors. Full developer docs: https://github.com/matlee0409/AgentX/wiki/developer-guide/
 
 ### Project Layout
 

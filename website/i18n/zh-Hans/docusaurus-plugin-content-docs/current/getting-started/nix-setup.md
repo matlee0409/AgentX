@@ -35,11 +35,11 @@ AgentX Agent 提供了一个 Nix flake，支持三个层级的集成：
 
 ```bash
 # 直接运行（首次使用时构建，之后使用缓存）
-nix run github:matlek0409/AgentX -- setup
-nix run github:matlek0409/AgentX -- chat
+nix run github:matlee0409/AgentX -- setup
+nix run github:matlee0409/AgentX -- chat
 
 # 或持久化安装
-nix profile install github:matlek0409/AgentX
+nix profile install github:matlee0409/AgentX
 agentx setup
 agentx chat
 ```
@@ -50,7 +50,7 @@ agentx chat
 <summary><strong>从本地克隆构建</strong></summary>
 
 ```bash
-git clone https://github.com/matlek0409/AgentX.git
+git clone https://github.com/matlee0409/AgentX.git
 cd agentx-agent
 nix build
 ./result/bin/agentx setup
@@ -75,7 +75,7 @@ nix build
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    agentx-agent.url = "github:matlek0409/AgentX";
+    agentx-agent.url = "github:matlee0409/AgentX";
   };
 
   outputs = { nixpkgs, agentx-agent, ... }: {
@@ -685,7 +685,7 @@ services.agentx-agent = {
 
 ```nix
 {
-  inputs.agentx-agent.url = "github:matlek0409/AgentX";
+  inputs.agentx-agent.url = "github:matlee0409/AgentX";
   outputs = { agentx-agent, nixpkgs, ... }: {
     nixpkgs.overlays = [ agentx-agent.overlays.default ];
     # 然后：

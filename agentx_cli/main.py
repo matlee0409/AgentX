@@ -5812,7 +5812,7 @@ def _print_curator_first_run_notice() -> None:
     print("  Preview now:  agentx curator run --dry-run")
     print("  Pause it:     agentx curator pause")
     print(
-        "  Docs:         https://github.com/matlek0409/AgentX/wiki/user-guide/features/curator"
+        "  Docs:         https://github.com/matlee0409/AgentX/wiki/user-guide/features/curator"
     )
 
 
@@ -6093,7 +6093,7 @@ def _update_via_zip(args):
         )
         sys.exit(1)
     zip_url = (
-        f"https://github.com/matlek0409/AgentX/archive/refs/heads/{branch}.zip"
+        f"https://github.com/matlee0409/AgentX/archive/refs/heads/{branch}.zip"
     )
 
     print("→ Downloading latest version...")
@@ -6501,12 +6501,12 @@ def _discard_stashed_changes(
 # =========================================================================
 
 OFFICIAL_REPO_URLS = {
-    "https://github.com/matlek0409/AgentX.git",
-    "git@github.com:matlek0409/AgentX.git",
-    "https://github.com/matlek0409/AgentX",
-    "git@github.com:matlek0409/AgentX",
+    "https://github.com/matlee0409/AgentX.git",
+    "git@github.com:matlee0409/AgentX.git",
+    "https://github.com/matlee0409/AgentX",
+    "git@github.com:matlee0409/AgentX",
 }
-OFFICIAL_REPO_URL = "https://github.com/matlek0409/AgentX.git"
+OFFICIAL_REPO_URL = "https://github.com/matlee0409/AgentX.git"
 SKIP_UPSTREAM_PROMPT_FILE = ".skip_upstream_prompt"
 
 
@@ -6640,7 +6640,7 @@ def _sync_with_upstream_if_needed(git_cmd: list[str], cwd: Path) -> None:
         # Ask user if they want to add upstream
         print()
         print("ℹ Your fork is not tracking the official AgentX repository.")
-        print("  This means you may miss updates from matlek0409/AgentX.")
+        print("  This means you may miss updates from matlee0409/AgentX.")
         print()
         try:
             response = (
@@ -6654,7 +6654,7 @@ def _sync_with_upstream_if_needed(git_cmd: list[str], cwd: Path) -> None:
             print("→ Adding upstream remote...")
             if _add_upstream_remote(git_cmd, cwd):
                 print(
-                    "  ✓ Added upstream: https://github.com/matlek0409/AgentX.git"
+                    "  ✓ Added upstream: https://github.com/matlee0409/AgentX.git"
                 )
                 has_upstream = True
             else:
@@ -6662,7 +6662,7 @@ def _sync_with_upstream_if_needed(git_cmd: list[str], cwd: Path) -> None:
                 return
         else:
             print(
-                "  Skipped. Run 'git remote add upstream https://github.com/matlek0409/AgentX.git' to add later."
+                "  Skipped. Run 'git remote add upstream https://github.com/matlee0409/AgentX.git' to add later."
             )
             _mark_skip_upstream_prompt()
             return
@@ -8927,7 +8927,7 @@ def _cmd_update_impl(args, gateway_mode: bool):
                 return
             print("✗ Not a git repository. Please reinstall:")
             print(
-                "  curl -fsSL https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.sh | bash"
+                "  curl -fsSL https://raw.githubusercontent.com/matlee0409/AgentX/main/scripts/install.sh | bash"
             )
             sys.exit(1)
 
@@ -11218,7 +11218,7 @@ def _maybe_setup_dashboard_auth_interactively(args) -> None:
             "    agentx dashboard register\n"
             "  It provisions a Nous Portal OAuth client and writes "
             "AGENTX_DASHBOARD_OAUTH_CLIENT_ID into ~/.agentx/.env for you.\n"
-            "  Docs: https://github.com/matlek0409/AgentX/wiki/"
+            "  Docs: https://github.com/matlee0409/AgentX/wiki/"
             "user-guide/features/web-dashboard#authentication-gated-mode"
         )
         sys.exit(0)
@@ -12140,7 +12140,7 @@ def main():
             "Manage the fallback provider chain.  Fallback providers are tried "
             "in order when the primary model fails with rate-limit, overload, or "
             "connection errors.  See: "
-            "https://github.com/matlek0409/AgentX/wiki/user-guide/features/fallback-providers"
+            "https://github.com/matlee0409/AgentX/wiki/user-guide/features/fallback-providers"
         ),
     )
     fallback_subparsers = fallback_parser.add_subparsers(dest="fallback_command")
@@ -12174,7 +12174,7 @@ def main():
             "Pull API keys from an external secret manager at process startup "
             "instead of storing them in ~/.agentx/.env.  Currently supports "
             "Bitwarden Secrets Manager.  See: "
-            "https://github.com/matlek0409/AgentX/wiki/user-guide/secrets/bitwarden"
+            "https://github.com/matlee0409/AgentX/wiki/user-guide/secrets/bitwarden"
         ),
     )
     secrets_subparsers = secrets_parser.add_subparsers(dest="secrets_command")

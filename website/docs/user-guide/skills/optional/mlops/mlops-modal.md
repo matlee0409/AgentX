@@ -351,8 +351,8 @@ if __name__ == "__main__":
 
 ## References
 
-- **[Advanced Usage](https://github.com/matlek0409/AgentX/blob/main/optional-skills/mlops/modal/references/advanced-usage.md)** - Multi-GPU, distributed training, cost optimization
-- **[Troubleshooting](https://github.com/matlek0409/AgentX/blob/main/optional-skills/mlops/modal/references/troubleshooting.md)** - Common issues and solutions
+- **[Advanced Usage](https://github.com/matlee0409/AgentX/blob/main/optional-skills/mlops/modal/references/advanced-usage.md)** - Multi-GPU, distributed training, cost optimization
+- **[Troubleshooting](https://github.com/matlee0409/AgentX/blob/main/optional-skills/mlops/modal/references/troubleshooting.md)** - Common issues and solutions
 
 ## Resources
 

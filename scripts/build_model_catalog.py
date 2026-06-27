@@ -17,7 +17,7 @@ Usage::
 Output: ``website/static/api/model-catalog.json``
 
 Live URL (after ``deploy-site.yml`` runs on merge to main):
-``https://github.com/matlek0409/AgentX/wiki/api/model-catalog.json``
+``https://github.com/matlee0409/AgentX/wiki/api/model-catalog.json``
 """
 
 from __future__ import annotations
@@ -45,7 +45,7 @@ def build_catalog() -> dict:
         "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "metadata": {
             "source": "agentx-agent repo",
-            "docs": "https://github.com/matlek0409/AgentX/wiki/reference/model-catalog",
+            "docs": "https://github.com/matlee0409/AgentX/wiki/reference/model-catalog",
         },
         "providers": {
             "openrouter": {

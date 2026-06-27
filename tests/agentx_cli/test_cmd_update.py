@@ -231,7 +231,7 @@ class TestCmdUpdateBranchFallback:
         """Regression for issue #26172: forks whose local HEAD already matches
         origin/main must still consult upstream/main before printing
         "Already up to date!" — otherwise a fork that's caught up to its own
-        origin but behind matlek0409/AgentX silently misses updates.
+        origin but behind matlee0409/AgentX silently misses updates.
         """
         from agentx_cli import main as hm
 

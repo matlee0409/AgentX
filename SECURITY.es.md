@@ -6,7 +6,7 @@ alcance para los informes de vulnerabilidades.
 
 ## 1. Reportar una Vulnerabilidad
 
-Reporta de forma privada a través de [GitHub Security Advisories](https://github.com/matlek0409/AgentX/security/advisories/new)
+Reporta de forma privada a través de [GitHub Security Advisories](https://github.com/matlee0409/AgentX/security/advisories/new)
 o **security@nousresearch.com**. No abras issues públicos para
 vulnerabilidades de seguridad. **AgentX Agent no opera un programa de
 recompensas por errores.**

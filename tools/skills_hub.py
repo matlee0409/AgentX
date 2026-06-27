@@ -3578,7 +3578,7 @@ def check_for_skill_updates(
 # AgentX centralized index source
 # ---------------------------------------------------------------------------
 
-AGENTX_INDEX_URL = "https://github.com/matlek0409/AgentX/wiki/api/skills-index.json"
+AGENTX_INDEX_URL = "https://github.com/matlee0409/AgentX/wiki/api/skills-index.json"
 AGENTX_INDEX_CACHE_FILE = INDEX_CACHE_DIR / "agentx-index.json"
 AGENTX_INDEX_TTL = 6 * 3600  # 6 hours
 

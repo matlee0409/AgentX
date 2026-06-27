@@ -501,8 +501,8 @@ client = QdrantClient(
 
 ## References
 
-- **[Advanced Usage](https://github.com/matlek0409/AgentX/blob/main/optional-skills/mlops/qdrant/references/advanced-usage.md)** - Distributed mode, hybrid search, recommendations
-- **[Troubleshooting](https://github.com/matlek0409/AgentX/blob/main/optional-skills/mlops/qdrant/references/troubleshooting.md)** - Common issues, debugging, performance tuning
+- **[Advanced Usage](https://github.com/matlee0409/AgentX/blob/main/optional-skills/mlops/qdrant/references/advanced-usage.md)** - Distributed mode, hybrid search, recommendations
+- **[Troubleshooting](https://github.com/matlee0409/AgentX/blob/main/optional-skills/mlops/qdrant/references/troubleshooting.md)** - Common issues, debugging, performance tuning
 
 ## Resources
 

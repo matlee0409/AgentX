@@ -41,17 +41,17 @@ No clone needed. Nix fetches, builds, and runs everything:
 
 ```bash
 # Run the desktop app
-nix run github:matlek0409/AgentX#desktop
+nix run github:matlee0409/AgentX#desktop
 
 # Or install persistently
-nix profile install github:matlek0409/AgentX#desktop
+nix profile install github:matlee0409/AgentX#desktop
 
 # run the tui
-nix run github:matlek0409/AgentX -- setup
-nix run github:matlek0409/AgentX -- --tui
+nix run github:matlee0409/AgentX -- setup
+nix run github:matlee0409/AgentX -- --tui
 
 # or install it in your profile
-nix profile install github:matlek0409/AgentX
+nix profile install github:matlee0409/AgentX
 agentx setup
 agentx --tui
 ```
@@ -69,7 +69,7 @@ The `default` package adds ~700 MB to the closure. If you only need messaging pl
 <summary><strong>Running from a local clone</strong></summary>
 
 ```bash
-git clone https://github.com/matlek0409/AgentX.git
+git clone https://github.com/matlee0409/AgentX.git
 cd agentx-agent
 nix develop
 agentx setup
@@ -94,7 +94,7 @@ This module requires NixOS. For non-NixOS systems (macOS, other Linux distros), 
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    agentx-agent.url = "github:matlek0409/AgentX";
+    agentx-agent.url = "github:matlee0409/AgentX";
   };
 
   outputs = { nixpkgs, agentx-agent, ... }: {
@@ -733,7 +733,7 @@ External flakes can override the package directly:
 
 ```nix
 {
-  inputs.agentx-agent.url = "github:matlek0409/AgentX";
+  inputs.agentx-agent.url = "github:matlee0409/AgentX";
   outputs = { agentx-agent, nixpkgs, ... }: {
     nixpkgs.overlays = [ agentx-agent.overlays.default ];
     # Then:

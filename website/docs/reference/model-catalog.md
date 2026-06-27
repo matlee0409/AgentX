@@ -13,7 +13,7 @@ When the manifest is unreachable (offline, network blocked, hosting failure), Ag
 ## Live manifest URL
 
 ```
-https://github.com/matlek0409/AgentX/wiki/api/model-catalog.json
+https://github.com/matlee0409/AgentX/wiki/api/model-catalog.json
 ```
 
 Published on every merge to `main` via the existing `deploy-site.yml` GitHub Pages pipeline. The source of truth lives in the repo at `website/static/api/model-catalog.json`.
@@ -68,7 +68,7 @@ Cache location: `~/.agentx/cache/model_catalog.json`.
 ```yaml
 model_catalog:
   enabled: true
-  url: https://github.com/matlek0409/AgentX/wiki/api/model-catalog.json
+  url: https://github.com/matlee0409/AgentX/wiki/api/model-catalog.json
   ttl_hours: 1
   providers: {}
 ```

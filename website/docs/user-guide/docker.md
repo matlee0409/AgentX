@@ -637,7 +637,7 @@ From inside the AgentX container, the sidecar is reachable at `http://my-tool:<p
 
 ### Broadly useful tools — open an issue or pull request
 
-If a tool is likely to be useful to most AgentX Agent users, consider contributing it upstream rather than carrying it in a private derived image. Open an issue or pull request on the [agentx-agent repository](https://github.com/matlek0409/AgentX) describing the tool and its use case. Tools that get bundled into the official image benefit every user and avoid the maintenance overhead of a downstream fork.
+If a tool is likely to be useful to most AgentX Agent users, consider contributing it upstream rather than carrying it in a private derived image. Open an issue or pull request on the [agentx-agent repository](https://github.com/matlee0409/AgentX) describing the tool and its use case. Tools that get bundled into the official image benefit every user and avoid the maintenance overhead of a downstream fork.
 
 ## Connecting to local inference servers (vLLM, Ollama, etc.)
 

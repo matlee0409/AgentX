@@ -2602,7 +2602,7 @@ DEFAULT_CONFIG = {
     # The default URL is served by the docs site GitHub Pages deploy.
     "model_catalog": {
         "enabled": True,
-        "url": "https://github.com/matlek0409/AgentX/wiki/api/model-catalog.json",
+        "url": "https://github.com/matlee0409/AgentX/wiki/api/model-catalog.json",
         # Disk cache TTL in hours.  Beyond this, the CLI refetches on the
         # next /model or `agentx model` invocation; network failures
         # silently fall back to the stale cache.

@@ -5,7 +5,7 @@ working directory, the next ``subprocess.Popen(..., cwd=self.cwd)`` would
 otherwise raise ``FileNotFoundError`` before bash starts, wedging every
 subsequent terminal/file-tool call until the gateway restarts.
 
-Regression coverage for https://github.com/matlek0409/AgentX/issues/17558.
+Regression coverage for https://github.com/matlee0409/AgentX/issues/17558.
 """
 
 import os

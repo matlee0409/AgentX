@@ -5,7 +5,7 @@ import { usePageHeader } from "@/contexts/usePageHeader";
 import { cn } from "@/lib/utils";
 import { PluginSlot } from "@/plugins";
 
-export const AGENTX_DOCS_URL = "https://github.com/matlek0409/AgentX/wiki/";
+export const AGENTX_DOCS_URL = "https://github.com/matlee0409/AgentX/wiki/";
 
 const DS_BUTTON_OUTLINED_LINK_CN = cn(
   "group relative inline-grid grid-cols-[auto_1fr_auto] items-center",
