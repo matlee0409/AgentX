@@ -1892,42 +1892,72 @@ except Exception:
 
 function Set-PathVariable {
     Write-Info "Setting up agentx command..."
-    
-    if ($NoVenv) {
-        $agentxBin = "$InstallDir"
+
+    $agentxBinDir = Join-Path $AgentXHome "bin"
+    New-Item -ItemType Directory -Force -Path $agentxBinDir | Out-Null
+
+    # --- Strategy 1: drop agentx.cmd into $AgentXHome\bin\ ---
+    # $AgentXHome\bin already contains uv.exe and is on User PATH (added by the
+    # uv installer).  Writing agentx.cmd there means `agentx` works in every
+    # new terminal immediately — no extra PATH entry needed.
+    $venvAgentX = if ($NoVenv) {
+        # No venv: call uv run directly
+        "`"$($UvCmd)`" run --project `"$InstallDir`" agentx %*"
     } else {
-        $agentxBin = "$InstallDir\venv\Scripts"
+        "`"$InstallDir\venv\Scripts\agentx.exe`" %*"
     }
-    
-    # Add the venv Scripts dir to user PATH so agentx is globally available
-    # On Windows, the agentx.exe in venv\Scripts\ has the venv Python baked in
+
+    $cmdContent = "@echo off`r`n$venvAgentX`r`n"
+    $cmdPath = Join-Path $agentxBinDir "agentx.cmd"
+    [System.IO.File]::WriteAllText($cmdPath, $cmdContent, [System.Text.Encoding]::ASCII)
+    Write-Success "Created agentx launcher: $cmdPath"
+
+    # --- Strategy 2: also add venv\Scripts to PATH as a belt-and-suspenders ---
+    # agentx.exe, agentx-agent.exe, etc. all live there; having the dir on PATH
+    # lets users run them directly and matches the documented install behaviour.
+    if (-not $NoVenv) {
+        $agentxVenvScripts = "$InstallDir\venv\Scripts"
+        $currentPath = [Environment]::GetEnvironmentVariable("Path", "User")
+        if ($currentPath -notlike "*$agentxVenvScripts*") {
+            [Environment]::SetEnvironmentVariable(
+                "Path",
+                "$agentxVenvScripts;$currentPath",
+                "User"
+            )
+            Write-Success "Added to user PATH: $agentxVenvScripts"
+        } else {
+            Write-Info "venv\Scripts already in PATH"
+        }
+        # Update current session too so the rest of this install can call agentx
+        if ($env:Path -notlike "*$agentxVenvScripts*") {
+            $env:Path = "$agentxVenvScripts;$env:Path"
+        }
+    }
+
+    # Ensure $AgentXHome\bin is in PATH (uv installer usually adds it, but be
+    # explicit so the agentx.cmd we just wrote is always reachable).
     $currentPath = [Environment]::GetEnvironmentVariable("Path", "User")
-    
-    if ($currentPath -notlike "*$agentxBin*") {
+    if ($currentPath -notlike "*$agentxBinDir*") {
         [Environment]::SetEnvironmentVariable(
             "Path",
-            "$agentxBin;$currentPath",
+            "$agentxBinDir;$currentPath",
             "User"
         )
-        Write-Success "Added to user PATH: $agentxBin"
-    } else {
-        Write-Info "PATH already configured"
+        Write-Success "Added to user PATH: $agentxBinDir"
     }
-    
+    if ($env:Path -notlike "*$agentxBinDir*") {
+        $env:Path = "$agentxBinDir;$env:Path"
+    }
+
     # Set AGENTX_HOME so the Python code finds config/data in the right place.
-    # Only needed on Windows where we install to %LOCALAPPDATA%\agentx instead
-    # of the Unix default ~/.agentx
     $currentAgentXHome = [Environment]::GetEnvironmentVariable("AGENTX_HOME", "User")
     if (-not $currentAgentXHome -or $currentAgentXHome -ne $AgentXHome) {
         [Environment]::SetEnvironmentVariable("AGENTX_HOME", $AgentXHome, "User")
         Write-Success "Set AGENTX_HOME=$AgentXHome"
     }
     $env:AGENTX_HOME = $AgentXHome
-    
-    # Update current session
-    $env:Path = "$agentxBin;$env:Path"
-    
-    Write-Success "agentx command ready"
+
+    Write-Success "agentx command ready — open a new terminal and run: agentx"
 }
 
 function Write-BootstrapMarker {
@@ -2994,7 +3024,10 @@ function Write-Completion {
     
     Write-Host "---------------------------------------------------------" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "[*] Restart your terminal for PATH changes to take effect" -ForegroundColor Yellow
+    Write-Host "[*] Open a new terminal and run: agentx" -ForegroundColor Yellow
+    Write-Host "    (agentx.cmd was written to $AgentXHome\bin — already on your PATH)" -ForegroundColor DarkGray
+    Write-Host "    If agentx is still not found, run this one-liner to fix it:" -ForegroundColor DarkGray
+    Write-Host "    `$env:Path = `"$AgentXHome\bin;`$env:Path`"" -ForegroundColor Cyan
     Write-Host ""
     
     if (-not $HasNode) {
