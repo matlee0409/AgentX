@@ -24,10 +24,10 @@ A quick search before you build saves your time and keeps the PR queue clean —
 
 - **Search both open *and* merged PRs and issues** for your topic or error symptom — the duplicate-check in the PR template fires at review time, after you've already done the work:
   ```bash
-  gh search issues --repo NousResearch/agentx-agent "<your terms>"
-  gh search prs --repo NousResearch/agentx-agent --state all "<your terms>"
+  gh search issues --repo matlek0409/AgentX "<your terms>"
+  gh search prs --repo matlek0409/AgentX --state all "<your terms>"
   ```
-  Or use the web UI: [issues](https://github.com/NousResearch/agentx-agent/issues?q=) · [PRs (all states)](https://github.com/NousResearch/agentx-agent/pulls?q=is%3Apr).
+  Or use the web UI: [issues](https://github.com/matlek0409/AgentX/issues?q=) · [PRs (all states)](https://github.com/matlek0409/AgentX/pulls?q=is%3Apr).
 - **The issue tracker can lag the code.** Many requested features are already implemented in-tree, so also search the source (`search_files`, or your editor's grep) for the capability before proposing it.
 - **If an open PR already addresses it**, consider reviewing or improving that one instead of opening a competing duplicate.
 - **For larger work**, comment on the issue to signal you're working on it, so others don't start the same thing.
@@ -107,7 +107,7 @@ development environment on the same layout the CLI, updater, lazy dependency
 installer, gateway, and docs assume.
 
 ```bash
-curl -fsSL https://agentx-agent.nousresearch.com/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.sh | bash
 cd "${AGENTX_HOME:-$HOME/.agentx}/agentx-agent"
 
 # Add dev/test extras on top of the standard install.
@@ -133,7 +133,7 @@ system `python3 -m agentx_cli.main` can pick up unrelated system Python
 packages.
 
 ```bash
-git clone https://github.com/NousResearch/agentx-agent.git
+git clone https://github.com/matlek0409/AgentX.git
 cd agentx-agent
 
 # Create venv with Python 3.11
@@ -250,7 +250,7 @@ agentx-agent/
 ├── skills/                   # Bundled skills (copied to ~/.agentx/skills/ on install)
 ├── optional-skills/          # Official optional skills (discoverable via hub, not activated by default)
 ├── tests/                    # Test suite
-├── website/                  # Documentation site (agentx-agent.nousresearch.com)
+├── website/                  # Documentation site (github.com/matlek0409/AgentX)
 │
 ├── cli-config.yaml.example   # Example configuration (copied to ~/.agentx/config.yaml)
 └── AGENTS.md                 # Development guide for AI coding assistants
@@ -963,7 +963,7 @@ test(tools): add unit tests for file_operations
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/NousResearch/agentx-agent/issues)
+- Use [GitHub Issues](https://github.com/matlek0409/AgentX/issues)
 - Include: OS, Python version, AgentX version (`agentx version`), full error traceback
 - Include steps to reproduce
 - Check existing issues before creating duplicates

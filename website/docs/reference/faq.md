@@ -206,7 +206,7 @@ source ~/.bashrc
 # If you previously installed with sudo, clean up:
 sudo rm /usr/local/bin/agentx
 # Then re-run the standard installer
-curl -fsSL https://agentx-agent.nousresearch.com/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.sh | bash
 ```
 
 ---
@@ -732,7 +732,7 @@ Skills with very long descriptions are truncated to 40 characters in the Telegra
 
 1. Install AgentX Agent on the new machine:
    ```bash
-   curl -fsSL https://agentx-agent.nousresearch.com/install.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.sh | bash
    ```
 
 2. On the **source machine**, create a full backup:
@@ -836,6 +836,6 @@ If using OpenRouter, make sure your API key has credits. A 400 from OpenRouter o
 
 If your issue isn't covered here:
 
-1. **Search existing issues:** [GitHub Issues](https://github.com/NousResearch/agentx-agent/issues)
+1. **Search existing issues:** [GitHub Issues](https://github.com/matlek0409/AgentX/issues)
 2. **Ask the community:** [Nous Research Discord](https://discord.gg/nousresearch)
 3. **File a bug report:** Include your OS, Python version (`python3 --version`), AgentX version (`agentx --version`), and the full error message

@@ -5,9 +5,9 @@ keep the user's real HOME by default so external CLIs find existing credentials.
 Containers still use the profile home for persistence, and users can explicitly
 opt into profile HOME isolation on the host.
 
-See: https://github.com/NousResearch/agentx-agent/issues/25114
-See: https://github.com/NousResearch/agentx-agent/issues/36144
-See: https://github.com/NousResearch/agentx-agent/issues/29015
+See: https://github.com/matlek0409/AgentX/issues/25114
+See: https://github.com/matlek0409/AgentX/issues/36144
+See: https://github.com/matlek0409/AgentX/issues/29015
 """
 
 import os

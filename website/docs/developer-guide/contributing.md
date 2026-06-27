@@ -49,7 +49,7 @@ development environment on the same layout the CLI, updater, lazy dependency
 installer, gateway, and docs assume.
 
 ```bash
-curl -fsSL https://agentx-agent.nousresearch.com/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/matlek0409/AgentX/main/scripts/install.sh | bash
 cd "${AGENTX_HOME:-$HOME/.agentx}/agentx-agent"
 
 # Add dev/test extras on top of the standard install.
@@ -75,7 +75,7 @@ system `python3 -m agentx_cli.main` can pick up unrelated system Python
 packages.
 
 ```bash
-git clone https://github.com/NousResearch/agentx-agent.git
+git clone https://github.com/matlek0409/AgentX.git
 cd agentx-agent
 
 # Create venv with Python 3.11
@@ -128,7 +128,7 @@ scripts/run_tests.sh
 - **Comments**: Only when explaining non-obvious intent, trade-offs, or API quirks
 - **Error handling**: Catch specific exceptions. Use `logger.warning()`/`logger.error()` with `exc_info=True` for unexpected errors
 - **Cross-platform**: Never assume Unix (see below)
-- **Profile-safe paths**: Never hardcode `~/.agentx` — use `get_agentx_home()` from `agentx_constants` for code paths and `display_agentx_home()` for user-facing messages. See [AGENTS.md](https://github.com/NousResearch/agentx-agent/blob/main/AGENTS.md#profiles-multi-instance-support) for full rules.
+- **Profile-safe paths**: Never hardcode `~/.agentx` — use `get_agentx_home()` from `agentx_constants` for code paths and `display_agentx_home()` for user-facing messages. See [AGENTS.md](https://github.com/matlek0409/AgentX/blob/main/AGENTS.md#profiles-multi-instance-support) for full rules.
 
 ## Cross-Platform Compatibility
 
@@ -264,7 +264,7 @@ fix(security): prevent shell injection in sudo password piping
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/NousResearch/agentx-agent/issues)
+- Use [GitHub Issues](https://github.com/matlek0409/AgentX/issues)
 - Include: OS, Python version, AgentX version (`agentx version`), full error traceback
 - Include steps to reproduce
 - Check existing issues before creating duplicates
@@ -278,4 +278,4 @@ fix(security): prevent shell injection in sudo password piping
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the [MIT License](https://github.com/NousResearch/agentx-agent/blob/main/LICENSE).
+By contributing, you agree that your contributions will be licensed under the [MIT License](https://github.com/matlek0409/AgentX/blob/main/LICENSE).

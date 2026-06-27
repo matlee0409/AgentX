@@ -81,7 +81,7 @@ Esto no es una barra de calidad — es una decisión de acoplamiento y mantenimi
 ### Clonar e instalar
 
 ```bash
-git clone https://github.com/NousResearch/agentx-agent.git
+git clone https://github.com/matlek0409/AgentX.git
 cd agentx-agent
 
 # Crear venv con Python 3.11
@@ -194,7 +194,7 @@ agentx-agent/
 ├── skills/                   # Habilidades incluidas (copiadas a ~/.agentx/skills/ en la instalación)
 ├── optional-skills/          # Habilidades opcionales oficiales (descubribles vía hub, no activadas por defecto)
 ├── tests/                    # Suite de tests
-├── website/                  # Sitio de documentación (agentx-agent.nousresearch.com)
+├── website/                  # Sitio de documentación (github.com/matlek0409/AgentX)
 │
 ├── cli-config.yaml.example   # Configuración de ejemplo (copiada a ~/.agentx/config.yaml)
 └── AGENTS.md                 # Guía de desarrollo para asistentes de codificación IA
@@ -581,7 +581,7 @@ test(tools): añadir tests unitarios para file_operations
 
 ## Reportar Issues
 
-- Usa [GitHub Issues](https://github.com/NousResearch/agentx-agent/issues)
+- Usa [GitHub Issues](https://github.com/matlek0409/AgentX/issues)
 - Incluye: SO, versión de Python, versión de AgentX (`agentx version`), traza de error completa
 - Incluye pasos para reproducir
 - Verifica los issues existentes antes de crear duplicados

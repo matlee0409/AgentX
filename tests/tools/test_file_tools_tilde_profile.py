@@ -11,7 +11,7 @@ The fix adds ``_expand_tilde()`` which delegates to
 ``agentx_constants.get_subprocess_home()`` — the same policy the terminal tool
 uses for subprocess environments.
 
-See: https://github.com/NousResearch/agentx-agent/issues/48552
+See: https://github.com/matlek0409/AgentX/issues/48552
 """
 
 import os

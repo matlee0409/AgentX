@@ -1,7 +1,7 @@
 /**
  * Pure helpers for choosing a remote URL during passive update checks.
  *
- * A public install can end up with `origin=git@github.com:NousResearch/agentx-agent.git`.
+ * A public install can end up with `origin=git@github.com:matlek0409/AgentX.git`.
  * If the user's GitHub SSH key is FIDO2/passkey-backed, a background `git fetch
  * origin` triggers an unexplained hardware-touch prompt. For passive checks
  * against the official repo we substitute the public HTTPS `ls-remote` path,
@@ -12,7 +12,7 @@
  * testable without booting Electron (main.cjs requires('electron') at load).
  */
 
-const OFFICIAL_REPO_HTTPS_URL = 'https://github.com/NousResearch/agentx-agent.git'
+const OFFICIAL_REPO_HTTPS_URL = 'https://github.com/matlek0409/AgentX.git'
 const OFFICIAL_REPO_CANONICAL = 'github.com/nousresearch/agentx-agent'
 
 // Normalize common GitHub remote URL forms to `host/owner/repo` (lowercased,

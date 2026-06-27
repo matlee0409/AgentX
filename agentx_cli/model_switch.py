@@ -1546,7 +1546,7 @@ def list_authenticated_providers(
     curated: dict[str, list[str]] = dict(_PROVIDER_MODELS)
     curated["openrouter"] = [mid for mid, _ in OPENROUTER_MODELS]
     # "nous" pulls from the remote model-catalog manifest published at
-    # https://agentx-agent.nousresearch.com/docs/api/model-catalog.json so
+    # https://github.com/matlek0409/AgentX/wiki/api/model-catalog.json so
     # newly added Portal models surface in the /model picker without
     # requiring a AgentX release. Falls back to the in-repo
     # _PROVIDER_MODELS["nous"] snapshot when the manifest is unreachable.

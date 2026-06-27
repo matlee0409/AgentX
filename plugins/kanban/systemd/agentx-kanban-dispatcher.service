@@ -15,7 +15,7 @@
 
 [Unit]
 Description=AgentX Kanban dispatcher (DEPRECATED standalone daemon — prefer gateway-embedded dispatch)
-Documentation=https://agentx-agent.nousresearch.com/docs/user-guide/features/kanban
+Documentation=https://github.com/matlek0409/AgentX/wiki/user-guide/features/kanban
 After=network.target
 
 [Service]

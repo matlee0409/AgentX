@@ -7,7 +7,7 @@ const config: Config = {
   tagline: 'The self-improving AI agent',
   favicon: 'img/favicon.ico',
 
-  url: 'https://agentx-agent.nousresearch.com',
+  url: 'https://github.com/matlek0409/AgentX',
   baseUrl: '/docs/',
 
   organizationName: 'NousResearch',
@@ -90,7 +90,7 @@ const config: Config = {
         docs: {
           routeBasePath: '/',  // Docs at the root of /docs/
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/NousResearch/agentx-agent/edit/main/website/',
+          editUrl: 'https://github.com/matlek0409/AgentX/edit/main/website/',
         },
         blog: false,
         theme: {
@@ -131,7 +131,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://agentx-agent.nousresearch.com/',
+          href: 'https://github.com/matlek0409/AgentX/',
           label: 'Download',
           position: 'left',
         },
@@ -140,12 +140,12 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://agentx-agent.nousresearch.com',
+          href: 'https://github.com/matlek0409/AgentX',
           label: 'Home',
           position: 'right',
         },
         {
-          href: 'https://github.com/NousResearch/agentx-agent',
+          href: 'https://github.com/matlek0409/AgentX',
           label: 'GitHub',
           position: 'right',
         },
@@ -172,15 +172,15 @@ const config: Config = {
           title: 'Community',
           items: [
             { label: 'Discord', href: 'https://discord.gg/NousResearch' },
-            { label: 'GitHub Issues', href: 'https://github.com/NousResearch/agentx-agent/issues' },
+            { label: 'GitHub Issues', href: 'https://github.com/matlek0409/AgentX/issues' },
             { label: 'Skills Hub', href: 'https://agentskills.io' },
           ],
         },
         {
           title: 'More',
           items: [
-            { label: 'Desktop Download', href: 'https://agentx-agent.nousresearch.com/' },
-            { label: 'GitHub', href: 'https://github.com/NousResearch/agentx-agent' },
+            { label: 'Desktop Download', href: 'https://github.com/matlek0409/AgentX/' },
+            { label: 'GitHub', href: 'https://github.com/matlek0409/AgentX' },
             { label: 'Nous Research', href: 'https://nousresearch.com' },
           ],
         },

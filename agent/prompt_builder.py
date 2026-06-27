@@ -134,7 +134,7 @@ AGENTX_AGENT_HELP_GUIDANCE = (
     "You run on AgentX Agent (by Nous Research). When the user needs help with "
     "AgentX itself — configuring, setting up, using, extending, or troubleshooting "
     "it — or when you need to understand your own features, tools, or capabilities, "
-    "the documentation at https://agentx-agent.nousresearch.com/docs is your "
+    "the documentation at https://github.com/matlek0409/AgentX/wiki is your "
     "authoritative reference and always holds the latest, most up-to-date "
     "information. Load the `agentx-agent` skill with skill_view(name='agentx-agent') "
     "for additional guidance and proven workflows, but treat the docs as the source "

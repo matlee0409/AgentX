@@ -242,7 +242,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   meta = with lib; {
     description = "AI agent with advanced tool-calling capabilities";
-    homepage = "https://github.com/NousResearch/agentx-agent";
+    homepage = "https://github.com/matlek0409/AgentX";
     mainProgram = "agentx";
     license = licenses.mit;
     platforms = platforms.unix;

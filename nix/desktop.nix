@@ -151,7 +151,7 @@ stdenv.mkDerivation {
 
   meta = with lib; {
     description = "Native Electron desktop shell for AgentX Agent";
-    homepage = "https://github.com/NousResearch/agentx-agent";
+    homepage = "https://github.com/matlek0409/AgentX";
     license = licenses.mit;
     platforms = platforms.unix;
     mainProgram = "agentx-desktop";

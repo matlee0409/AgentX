@@ -13,7 +13,7 @@ required_credential_files:
 metadata:
   agentx:
     tags: [Google, Gmail, Calendar, Drive, Sheets, Docs, Contacts, Email, OAuth]
-    homepage: https://github.com/NousResearch/agentx-agent
+    homepage: https://github.com/matlek0409/AgentX
     related_skills: [himalaya]
 ---
 

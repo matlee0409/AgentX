@@ -1,6 +1,6 @@
 """Tests for get_agentx_home() profile-mode fallback warning.
 
-Regression test for https://github.com/NousResearch/agentx-agent/issues/18594.
+Regression test for https://github.com/matlek0409/AgentX/issues/18594.
 
 When AGENTX_HOME is unset but an active_profile file indicates a non-default
 profile is active, get_agentx_home() should:

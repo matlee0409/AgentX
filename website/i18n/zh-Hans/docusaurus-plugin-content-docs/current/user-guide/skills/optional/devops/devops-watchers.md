@@ -81,7 +81,7 @@ python $AGENTX_HOME/skills/devops/watchers/scripts/watch_rss.py \
 
 ```bash
 python $AGENTX_HOME/skills/devops/watchers/scripts/watch_github.py \
-  --name agentx-issues --repo NousResearch/agentx-agent --scope issues
+  --name agentx-issues --repo matlek0409/AgentX --scope issues
 ```
 
 轮询任意 JSON API：
